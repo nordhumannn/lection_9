@@ -1,4 +1,16 @@
-def simple_decorator(func):
+# Task:
+# 3) Предположим, в классе определен метод __str__, который возвращает
+# строку на основании класса. Создайте такой декоратор для этого метода,
+# чтобы полученная строка сохранялась в текстовый файл, имя которого
+# совпадает с именем класса, метод которого вы декорировали.
+
+
+def decorator(func):
+    """
+    writes the result of the __str__ method
+    execution to a file whose name is the
+    name of the current class
+    """
     count = 1
 
     def inner(args):
@@ -18,7 +30,7 @@ class Student:
         self.surname = surname
         self.age = age
 
-    @simple_decorator
+    @decorator
     def __str__(self):
         return f'{self.name} {self.surname}, {self.age}'
 
@@ -34,3 +46,15 @@ print(st_2)
 print(st_3)
 print(st_4)
 print(st_5)
+
+# Output:
+# 1: A D, 19
+#
+# 2: J F, 29
+#
+# 3: V D, 18
+#
+# 4: E T, 21
+#
+# 5: K R, 23
+
