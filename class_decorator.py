@@ -11,15 +11,11 @@ def decorator(func):
     execution to a file whose name is the
     name of the current class
     """
-    count = 1
-
-    def inner(args):
-        nonlocal count
-        with open(args.__class__.__name__ + '.txt', 'a') as f:
-            f.write(f'{count}: ' + func(args) + '\n\n')
+    def inner(*args):
+        with open(args[0].__class__.__name__ + '.txt', 'a') as f:
+            f.write(func(*args) + '\n')
             f.close()
-        count += 1
-        return func(args)
+        return func(*args)
     return inner
 
 
@@ -46,15 +42,3 @@ print(st_2)
 print(st_3)
 print(st_4)
 print(st_5)
-
-# Output:
-# 1: A D, 19
-#
-# 2: J F, 29
-#
-# 3: V D, 18
-#
-# 4: E T, 21
-#
-# 5: K R, 23
-
