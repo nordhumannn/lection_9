@@ -9,8 +9,8 @@ import time
 
 def chronometer(number, file_name):
     """
-    calls the decorated function 'number' times 
-    (specified in the parameters) and writes the 
+    calls the decorated function 'number' times
+    (specified in the parameters) and writes the
     output to a file with the name specified
     in the parameters
     """
@@ -30,8 +30,27 @@ def chronometer(number, file_name):
             count += 1
     return wrapper
 
+# --------------------------------------------------------------------------------------------
 
-@chronometer(10000, 'test')
+
+def chronometer(number, file_name):
+    def wrapper(func):
+        def inner(*args, **kwargs):
+            start = time.time()
+
+            for i in range(number):
+                res = func(*args, **kwargs)
+
+            stop = time.time()
+            with open(file_name + '.txt', 'w') as f:
+                f.write(f'{start} - {stop}: ---> {stop - start}')
+                f.close()
+            return res
+        return inner
+    return wrapper
+
+
+@chronometer(5, 'test')
 def fibonacci(n):
     if n == 0:
         return 0
@@ -40,7 +59,5 @@ def fibonacci(n):
     return fibonacci(n - 1) + fibonacci(n - 2)
 
 
-print(fibonacci(35))
+print(fibonacci(5))
 
-# Output:
-# Function passed: 10000, time: 6.9232378005981445
